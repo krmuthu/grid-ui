@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@source "../../node_modules/fun-tailwindcss-ui-1";
+@theme {
+    --color-primar:#00ffff;
+    --color-primary:#ff0000;
+}
+@source inline("{,sm:,md:}{col-span,grid-cols,gap}-{1,2,3,4,5,6,7,8,9,10,11,12}")

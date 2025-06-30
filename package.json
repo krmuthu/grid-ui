@@ -1,0 +1,48 @@
+{
+  "name": "test-my-ui",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.3",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "autoprefixer": "latest",
+    "eslint": "latest",
+    "fun-tailwindcss-ui": "latest",
+    "fun-tailwindcss-ui-1": "^0.0.5",
+    "next": "latest",
+    "postcss": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^4.0.1",
+    "@storybook/addon-a11y": "^9.0.14",
+    "@storybook/addon-docs": "^9.0.14",
+    "@storybook/addon-onboarding": "^9.0.14",
+    "@storybook/addon-vitest": "^9.0.14",
+    "@storybook/nextjs-vite": "^9.0.14",
+    "@vitest/browser": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint-plugin-storybook": "^9.0.14",
+    "playwright": "^1.53.1",
+    "storybook": "^9.0.14",
+    "vitest": "^3.2.4"
+  }
+}
