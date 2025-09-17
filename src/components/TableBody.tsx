@@ -13,6 +13,8 @@ interface TableBodyProps {
   scrollTop: number;
   setScrollTop: (scrollTop: number) => void;
   overscan?: number;
+  onRowClick?: (row: Record<string, any>, rowIndex?: number) => void;
+  onRowDoubleClick?: (row: Record<string, any>, rowIndex?: number) => void;
 }
 
 const TableBody: React.FC<TableBodyProps> = ({
@@ -25,6 +27,8 @@ const TableBody: React.FC<TableBodyProps> = ({
   scrollTop,
   setScrollTop,
   overscan = 5,
+  onRowClick,
+  onRowDoubleClick,
 }) => {
   // Custom virtualization calculations
   let customStartIdx = 0, customEndIdx = 0, customVisibleRows: typeof paginatedData = [];
@@ -55,7 +59,15 @@ const TableBody: React.FC<TableBodyProps> = ({
       <tbody className={tableClasses.tbody}>
         <tr className={tableClasses.tr} style={{ height: customStartIdx * rowHeight }} />
         {customVisibleRows.map((row, i) => (
-          <TableRow key={customStartIdx + i} columns={columns} row={row} rowIndex={customStartIdx + i} style={{ height: rowHeight }} />
+          <TableRow
+            key={customStartIdx + i}
+            columns={columns}
+            row={row}
+            rowIndex={customStartIdx + i}
+            style={{ height: rowHeight }}
+            onClick={onRowClick}
+            onDoubleClick={onRowDoubleClick}
+          />
         ))}
         <tr className={tableClasses.tr} style={{ height: (paginatedData.length - customEndIdx) * rowHeight }} />
       </tbody>
@@ -65,7 +77,14 @@ const TableBody: React.FC<TableBodyProps> = ({
   return (
     <tbody className={tableClasses.tbody}>
       {paginatedData.map((row, i) => (
-        <TableRow key={i} columns={columns} row={row} rowIndex={i} />
+        <TableRow
+          key={i}
+          columns={columns}
+          row={row}
+          rowIndex={i}
+          onClick={onRowClick}
+          onDoubleClick={onRowDoubleClick}
+        />
       ))}
     </tbody>
   );

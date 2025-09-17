@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import TablePagination from './TablePagination';
@@ -10,7 +10,7 @@ export interface Column {
   sortable?: boolean;
   filterable?: boolean;
   filterType?: 'text' | 'select' | 'number' | 'date';
-  options?: Array<{ label: string; value: string }>; // for select
+  options?: Array<{ label: string; value: any }>; // for select/radio
 }
 
 interface TableProps {
@@ -34,6 +34,9 @@ interface TableProps {
   customVirtualized?: boolean;
   rowHeight?: number; // px, default 48
   listHeight?: number; // px, default 400
+  // Row events
+  onRowClick?: (row: Record<string, any>, rowIndex?: number) => void;
+  onRowDoubleClick?: (row: Record<string, any>, rowIndex?: number) => void;
 }
 
 const DEBOUNCE_MS = 400;
@@ -57,6 +60,8 @@ const Table: React.FC<TableProps> = ({
   customVirtualized = false,
   rowHeight = 48,
   listHeight = 400,
+  onRowClick,
+  onRowDoubleClick,
 }) => {
   // Internal state for uncontrolled mode
   const [internalSortBy, setInternalSortBy] = useState<string | null>(null);
@@ -228,6 +233,8 @@ const Table: React.FC<TableProps> = ({
           scrollTop={scrollTop}
           setScrollTop={setScrollTop}
           overscan={CUSTOM_OVERSCAN}
+          onRowClick={onRowClick}
+          onRowDoubleClick={onRowDoubleClick}
         />
       </table>
       {pagination && totalPages > 1 && (

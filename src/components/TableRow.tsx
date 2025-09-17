@@ -7,10 +7,18 @@ interface TableRowProps {
   row: Record<string, any>;
   rowIndex?: number;
   style?: React.CSSProperties;
+  onClick?: (row: Record<string, any>, rowIndex?: number) => void;
+  onDoubleClick?: (row: Record<string, any>, rowIndex?: number) => void;
 }
 
-const TableRow: React.FC<TableRowProps> = ({ columns, row, rowIndex, style }) => (
-  <tr style={style} key={rowIndex} className={tableClasses.tr}>
+const TableRow: React.FC<TableRowProps> = ({ columns, row, rowIndex, style, onClick, onDoubleClick }) => (
+  <tr
+    style={style}
+    key={rowIndex}
+    className={tableClasses.tr}
+    onClick={onClick ? () => onClick(row, rowIndex) : undefined}
+    onDoubleClick={onDoubleClick ? () => onDoubleClick(row, rowIndex) : undefined}
+  >
     {columns.map((col) => (
       <td key={col.accessor} className={tableClasses.td}>
         {row[col.accessor]}

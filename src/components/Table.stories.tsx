@@ -32,7 +32,10 @@ export const Basic: Story = {
       description: {
         story: 'Click on the Name or Email column headers to sort the table. Use the filter inputs below the headers to filter each column.'
       },
-      source: { type: 'code' },
+      source: {
+        type: 'code',
+        code: `<Table columns={columns} data={data} />`
+      },
     },
   },
 };
@@ -42,7 +45,10 @@ export const NoData: Story = {
   parameters: {
     docs: {
       description: { story: 'Table with no data.' },
-      source: { type: 'code' },
+      source: {
+        type: 'code',
+        code: `<Table columns={columns} data={[]} />`
+      },
     },
   },
 };
@@ -59,7 +65,10 @@ export const ManyRows: Story = {
   parameters: {
     docs: {
       description: { story: 'Table with many rows for scroll and performance testing.' },
-      source: { type: 'code' },
+      source: {
+        type: 'code',
+        code: `<Table columns={columns} data={manyRows} />`
+      },
     },
   },
 };
@@ -77,7 +86,10 @@ export const SingleColumn: Story = {
   parameters: {
     docs: {
       description: { story: 'Table with only one column.' },
-      source: { type: 'code' },
+      source: {
+        type: 'code',
+        code: `<Table columns={singleCol} data={singleData} />`
+      },
     },
   },
 };
@@ -467,6 +479,48 @@ export const ManyColumns: Story = {
   parameters: {
     docs: {
       description: { story: 'Table with many columns (8+), custom virtualization, and 100 rows.' },
+      source: { type: 'code' },
+    },
+  },
+};
+
+export const RowClickAndDoubleClick: Story = {
+  render: () => {
+    const columns = [
+      { header: 'ID', accessor: 'id', sortable: true, filterType: 'number' as const },
+      { header: 'Name', accessor: 'name', sortable: true, filterType: 'text' as const },
+      { header: 'Role', accessor: 'role', filterType: 'select' as const, options: [
+        { label: 'Admin', value: 'Admin' },
+        { label: 'User', value: 'User' },
+        { label: 'Editor', value: 'Editor' },
+      ] },
+    ];
+    const data = Array.from({ length: 20 }, (_, i) => ({
+      id: i + 1,
+      name: `User ${i + 1}`,
+      role: i % 3 === 0 ? 'Admin' : i % 3 === 1 ? 'User' : 'Editor',
+    }));
+    const [lastEvent, setLastEvent] = React.useState<string>('');
+    return (
+      <>
+        <div className="mb-2 text-sm text-gray-700">{lastEvent}</div>
+        <Table
+          columns={columns}
+          data={data}
+          customVirtualized
+          listHeight={300}
+          rowHeight={40}
+          onRowClick={(row, rowIndex) => setLastEvent(`Clicked row ${rowIndex! + 1}: ${row.name}`)}
+          onRowDoubleClick={(row, rowIndex) => setLastEvent(`Double-clicked row ${rowIndex! + 1}: ${row.name}`)}
+        />
+      </>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Demonstrates Table row click and double click events. Shows the last event above the table.'
+      },
       source: { type: 'code' },
     },
   },
