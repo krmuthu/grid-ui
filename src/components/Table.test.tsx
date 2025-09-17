@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, within } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import Table from './Table';
 
 const columns = [
@@ -64,5 +64,22 @@ describe('Table', () => {
     expect(screen.getByText('User 10')).toBeInTheDocument();
     // A row far outside the viewport should not be rendered
     expect(screen.queryByText('User 100')).not.toBeInTheDocument();
+  });
+
+  it('calls onRowClick with correct row and index', () => {
+    const handleClick = vi.fn();
+    render(<Table columns={columns} data={data} onRowClick={handleClick} />);
+    const rows = screen.getAllByRole('row');
+    // The first data row is rows[1] (rows[0] is header)
+    fireEvent.click(within(rows[1]).getByText('Alice'));
+    expect(handleClick).toHaveBeenCalledWith(data[0], 0);
+  });
+
+  it('calls onRowDoubleClick with correct row and index', () => {
+    const handleDoubleClick = vi.fn();
+    render(<Table columns={columns} data={data} onRowDoubleClick={handleDoubleClick} />);
+    const rows = screen.getAllByRole('row');
+    fireEvent.doubleClick(within(rows[2]).getByText('Bob'));
+    expect(handleDoubleClick).toHaveBeenCalledWith(data[1], 1);
   });
 });
