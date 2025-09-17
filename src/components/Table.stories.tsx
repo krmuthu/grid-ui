@@ -348,7 +348,7 @@ export const ServerSideSortAndFilter: Story = {
   },
 };
 
-export const CustomVirtualizedRows: Story = {
+export const VirtualizedRows: Story = {
   render: () => {
     const columns = [
       { header: 'ID', accessor: 'id', sortable: true, filterType: 'number' as const },
@@ -358,7 +358,7 @@ export const CustomVirtualizedRows: Story = {
       id: i + 1,
       name: `User ${i + 1}`,
     }));
-    return <Table columns={columns} data={manyRows} customVirtualized listHeight={400} rowHeight={48} />;
+    return <Table columns={columns} data={manyRows} virtualized listHeight={400} rowHeight={48} />;
   },
   parameters: {
     docs: {
@@ -368,7 +368,7 @@ export const CustomVirtualizedRows: Story = {
   },
 };
 
-export const CustomVirtualizedApiSortFilter: Story = {
+export const VirtualizedApiSortFilter: Story = {
   render: () => {
     const columns = [
       { header: 'ID', accessor: 'id', sortable: true, filterType: 'number' as const },
@@ -426,7 +426,7 @@ export const CustomVirtualizedApiSortFilter: Story = {
         columns={columns}
         data={data}
         loading={loading}
-        customVirtualized
+        virtualized
         listHeight={400}
         rowHeight={48}
         sortBy={sortBy}
@@ -474,7 +474,7 @@ export const ManyColumns: Story = {
       status: i % 2 === 0 ? 'Active' : 'Inactive',
       location: ['New York', 'London', 'Berlin', 'Tokyo'][i % 4],
     }));
-    return <Table columns={columns} data={manyRows} customVirtualized listHeight={400} rowHeight={48} />;
+    return <Table columns={columns} data={manyRows} virtualized listHeight={400} rowHeight={48} />;
   },
   parameters: {
     docs: {
@@ -507,7 +507,7 @@ export const RowClickAndDoubleClick: Story = {
         <Table
           columns={columns}
           data={data}
-          customVirtualized
+          virtualized
           listHeight={300}
           rowHeight={40}
           onRowClick={(row, rowIndex) => setLastEvent(`Clicked row ${rowIndex! + 1}: ${row.name}`)}

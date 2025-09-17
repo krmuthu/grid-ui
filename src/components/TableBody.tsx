@@ -7,7 +7,7 @@ interface TableBodyProps {
   columns: Column[];
   paginatedData: Record<string, any>[];
   loading: boolean;
-  customVirtualized: boolean;
+  virtualized: boolean;
   rowHeight: number;
   listHeight: number;
   scrollTop: number;
@@ -21,7 +21,7 @@ const TableBody: React.FC<TableBodyProps> = ({
   columns,
   paginatedData,
   loading,
-  customVirtualized,
+  virtualized,
   rowHeight,
   listHeight,
   scrollTop,
@@ -32,7 +32,7 @@ const TableBody: React.FC<TableBodyProps> = ({
 }) => {
   // Custom virtualization calculations
   let customStartIdx = 0, customEndIdx = 0, customVisibleRows: typeof paginatedData = [];
-  if (customVirtualized) {
+  if (virtualized) {
     const visibleCount = Math.ceil(listHeight / rowHeight);
     customStartIdx = Math.max(0, Math.floor(scrollTop / rowHeight) - overscan);
     customEndIdx = Math.min(paginatedData.length, customStartIdx + visibleCount + overscan * 2);
@@ -54,7 +54,7 @@ const TableBody: React.FC<TableBodyProps> = ({
     );
   }
 
-  if (customVirtualized) {
+  if (virtualized) {
     return (
       <tbody className={tableClasses.tbody}>
         <tr className={tableClasses.tr} style={{ height: customStartIdx * rowHeight }} />

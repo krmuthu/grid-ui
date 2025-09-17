@@ -58,7 +58,7 @@ describe('Table', () => {
       name: `User ${i + 1}`,
       role: i % 2 === 0 ? 'Admin' : 'User',
     }));
-    render(<Table columns={columns} data={manyRows} customVirtualized listHeight={200} rowHeight={40} />);
+    render(<Table columns={columns} data={manyRows} virtualized listHeight={200} rowHeight={40} />);
     // Only a subset of rows should be in the DOM
     expect(screen.getByText('User 1')).toBeInTheDocument();
     expect(screen.getByText('User 10')).toBeInTheDocument();

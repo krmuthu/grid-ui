@@ -31,7 +31,7 @@ interface TableProps {
   filters?: Record<string, string>;
   onFiltersChange?: (filters: Record<string, string>) => void;
   // Custom Virtualization
-  customVirtualized?: boolean;
+  virtualized?: boolean;
   rowHeight?: number; // px, default 48
   listHeight?: number; // px, default 400
   // Row events
@@ -57,7 +57,7 @@ const Table: React.FC<TableProps> = ({
   onSortChange,
   filters: controlledFilters,
   onFiltersChange,
-  customVirtualized = false,
+  virtualized = false,
   rowHeight = 48,
   listHeight = 400,
   onRowClick,
@@ -185,7 +185,7 @@ const Table: React.FC<TableProps> = ({
 
   // Custom virtualization calculations
   let customStartIdx = 0, customEndIdx = 0, customVisibleRows: typeof paginatedData = [];
-  if (customVirtualized) {
+  if (virtualized) {
     const visibleCount = Math.ceil(listHeight / rowHeight);
     customStartIdx = Math.max(0, Math.floor(scrollTop / rowHeight) - CUSTOM_OVERSCAN);
     customEndIdx = Math.min(paginatedData.length, customStartIdx + visibleCount + CUSTOM_OVERSCAN * 2);
@@ -208,12 +208,12 @@ const Table: React.FC<TableProps> = ({
   return (
     <div
       className={`overflow-x-auto ${className}`}
-      ref={customVirtualized ? customContainerRef : undefined}
-      style={customVirtualized ? { height: listHeight, overflowY: 'auto' } : undefined}
-      onScroll={customVirtualized ? (e) => setScrollTop(e.currentTarget.scrollTop) : undefined}
+      ref={virtualized ? customContainerRef : undefined}
+      style={virtualized ? { height: listHeight, overflowY: 'auto' } : undefined}
+      onScroll={virtualized ? (e) => setScrollTop(e.currentTarget.scrollTop) : undefined}
     >
       <table
-        className={tableClasses.table + (customVirtualized ? ` h-[${listHeight}px]` : '')}
+        className={tableClasses.table + (virtualized ? ` h-[${listHeight}px]` : '')}
       >
         <TableHeader
           columns={columns}
@@ -227,7 +227,7 @@ const Table: React.FC<TableProps> = ({
           columns={columns}
           paginatedData={paginatedData}
           loading={loading}
-          customVirtualized={customVirtualized}
+          virtualized={virtualized}
           rowHeight={rowHeight}
           listHeight={listHeight}
           scrollTop={scrollTop}
